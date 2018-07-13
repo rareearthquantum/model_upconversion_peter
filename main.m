@@ -1,7 +1,7 @@
 
 PoptdBm = 10*log10(11);    % the pump laser power, in dBm
-% source = linspace(-80,20,100);      % the input microwave power, in dBm
-source = -80
+source = linspace(-80,20,10);      % the input microwave power, in dBm
+%source = -80
 
 a = source*0;   % the convertd optical photon number
 aout = source*0;    

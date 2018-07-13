@@ -1,0 +1,3 @@
+[submodule "qotoolbox"]
+	path = qotoolbox
+	url = git@github.com:jevonlongdell/qotoolbox.git
