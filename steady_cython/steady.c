@@ -5,12 +5,12 @@
     "distutils": {
         "depends": [
             "csteady.c"
-        ], 
-        "name": "steady", 
+        ],
+        "name": "steady",
         "sources": [
             "steady.pyx"
         ]
-    }, 
+    },
     "module_name": "steady"
 }
 END: Cython Metadata */
@@ -779,10 +779,44 @@ static int __pyx_clineno = 0;
 static const char * __pyx_cfilenm= __FILE__;
 static const char *__pyx_filename;
 
+/* Header.proto */
+#if !defined(CYTHON_CCOMPLEX)
+  #if defined(__cplusplus)
+    #define CYTHON_CCOMPLEX 1
+  #elif defined(_Complex_I)
+    #define CYTHON_CCOMPLEX 1
+  #else
+    #define CYTHON_CCOMPLEX 0
+  #endif
+#endif
+#if CYTHON_CCOMPLEX
+  #ifdef __cplusplus
+    #include <complex>
+  #else
+    #include <complex.h>
+  #endif
+#endif
+#if CYTHON_CCOMPLEX && !defined(__cplusplus) && defined(__sun__) && defined(__GNUC__)
+  #undef _Complex_I
+  #define _Complex_I 1.0fj
+#endif
+
 
 static const char *__pyx_f[] = {
   "steady.pyx",
 };
+/* Declarations.proto */
+#if CYTHON_CCOMPLEX
+  #ifdef __cplusplus
+    typedef ::std::complex< double > __pyx_t_double_complex;
+  #else
+    typedef double _Complex __pyx_t_double_complex;
+  #endif
+#else
+    typedef struct { double real, imag; } __pyx_t_double_complex;
+#endif
+static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(double, double);
+
 
 /*--- Type declarations ---*/
 
@@ -849,6 +883,29 @@ static const char *__pyx_f[] = {
     } while (0)
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
+
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* DictGetItem.proto */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key);
+#define __Pyx_PyObject_Dict_GetItem(obj, name)\
+    (likely(PyDict_CheckExact(obj)) ?\
+     __Pyx_PyDict_GetItem(obj, name) : PyObject_GetItem(obj, name))
+#else
+#define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
+#define __Pyx_PyObject_Dict_GetItem(obj, name)  PyObject_GetItem(obj, name)
+#endif
 
 /* PyObjectGetAttrStr.proto */
 #if CYTHON_USE_TYPE_SLOTS
@@ -919,6 +976,74 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
+/* RealImag.proto */
+#if CYTHON_CCOMPLEX
+  #ifdef __cplusplus
+    #define __Pyx_CREAL(z) ((z).real())
+    #define __Pyx_CIMAG(z) ((z).imag())
+  #else
+    #define __Pyx_CREAL(z) (__real__(z))
+    #define __Pyx_CIMAG(z) (__imag__(z))
+  #endif
+#else
+    #define __Pyx_CREAL(z) ((z).real)
+    #define __Pyx_CIMAG(z) ((z).imag)
+#endif
+#if defined(__cplusplus) && CYTHON_CCOMPLEX\
+        && (defined(_WIN32) || defined(__clang__) || (defined(__GNUC__) && (__GNUC__ >= 5 || __GNUC__ == 4 && __GNUC_MINOR__ >= 4 )) || __cplusplus >= 201103)
+    #define __Pyx_SET_CREAL(z,x) ((z).real(x))
+    #define __Pyx_SET_CIMAG(z,y) ((z).imag(y))
+#else
+    #define __Pyx_SET_CREAL(z,x) __Pyx_CREAL(z) = (x)
+    #define __Pyx_SET_CIMAG(z,y) __Pyx_CIMAG(z) = (y)
+#endif
+
+/* Arithmetic.proto */
+#if CYTHON_CCOMPLEX
+    #define __Pyx_c_eq_double(a, b)   ((a)==(b))
+    #define __Pyx_c_sum_double(a, b)  ((a)+(b))
+    #define __Pyx_c_diff_double(a, b) ((a)-(b))
+    #define __Pyx_c_prod_double(a, b) ((a)*(b))
+    #define __Pyx_c_quot_double(a, b) ((a)/(b))
+    #define __Pyx_c_neg_double(a)     (-(a))
+  #ifdef __cplusplus
+    #define __Pyx_c_is_zero_double(z) ((z)==(double)0)
+    #define __Pyx_c_conj_double(z)    (::std::conj(z))
+    #if 1
+        #define __Pyx_c_abs_double(z)     (::std::abs(z))
+        #define __Pyx_c_pow_double(a, b)  (::std::pow(a, b))
+    #endif
+  #else
+    #define __Pyx_c_is_zero_double(z) ((z)==0)
+    #define __Pyx_c_conj_double(z)    (conj(z))
+    #if 1
+        #define __Pyx_c_abs_double(z)     (cabs(z))
+        #define __Pyx_c_pow_double(a, b)  (cpow(a, b))
+    #endif
+ #endif
+#else
+    static CYTHON_INLINE int __Pyx_c_eq_double(__pyx_t_double_complex, __pyx_t_double_complex);
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_sum_double(__pyx_t_double_complex, __pyx_t_double_complex);
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_diff_double(__pyx_t_double_complex, __pyx_t_double_complex);
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_prod_double(__pyx_t_double_complex, __pyx_t_double_complex);
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_quot_double(__pyx_t_double_complex, __pyx_t_double_complex);
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_neg_double(__pyx_t_double_complex);
+    static CYTHON_INLINE int __Pyx_c_is_zero_double(__pyx_t_double_complex);
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_conj_double(__pyx_t_double_complex);
+    #if 1
+        static CYTHON_INLINE double __Pyx_c_abs_double(__pyx_t_double_complex);
+        static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_pow_double(__pyx_t_double_complex, __pyx_t_double_complex);
+    #endif
+#endif
+
+/* FromPy.proto */
+static __pyx_t_double_complex __Pyx_PyComplex_As___pyx_t_double_complex(PyObject*);
+
+/* ToPy.proto */
+#define __pyx_PyComplex_FromComplex(z)\
+        PyComplex_FromDoubles((double)__Pyx_CREAL(z),\
+                              (double)__Pyx_CIMAG(z))
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
@@ -952,88 +1077,280 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'steady' */
-static double csteady_rho31(double); /*proto*/
+static __pyx_t_double_complex csteady_rho31(__pyx_t_double_complex, __pyx_t_double_complex, __pyx_t_double_complex, double, double, double, double, double, double, double, double); /*proto*/
 #define __Pyx_MODULE_NAME "steady"
 extern int __pyx_module_is_main_steady;
 int __pyx_module_is_main_steady = 0;
 
 /* Implementation of 'steady' */
-static const char __pyx_k_x[] = "x";
+static const char __pyx_k_n_b[] = "n_b";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_Rabim[] = "Rabim";
+static const char __pyx_k_Rabio[] = "Rabio";
+static const char __pyx_k_Rabisb[] = "Rabisb";
+static const char __pyx_k_delta2[] = "delta2";
+static const char __pyx_k_delta3[] = "delta3";
 static const char __pyx_k_steady[] = "steady";
+static const char __pyx_k_gamma_m[] = "gamma_m";
+static const char __pyx_k_gamma_13[] = "gamma_13";
+static const char __pyx_k_gamma_23[] = "gamma_23";
+static const char __pyx_k_gamma_2d[] = "gamma_2d";
+static const char __pyx_k_gamma_3d[] = "gamma_3d";
+static const char __pyx_k_paramdict[] = "paramdict";
 static const char __pyx_k_steady_pyx[] = "steady.pyx";
 static const char __pyx_k_steady_rho31[] = "steady_rho31";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static PyObject *__pyx_n_s_Rabim;
+static PyObject *__pyx_n_s_Rabio;
+static PyObject *__pyx_n_s_Rabisb;
 static PyObject *__pyx_n_s_cline_in_traceback;
+static PyObject *__pyx_n_s_delta2;
+static PyObject *__pyx_n_s_delta3;
+static PyObject *__pyx_n_s_gamma_13;
+static PyObject *__pyx_n_s_gamma_23;
+static PyObject *__pyx_n_s_gamma_2d;
+static PyObject *__pyx_n_s_gamma_3d;
+static PyObject *__pyx_n_s_gamma_m;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_n_b;
+static PyObject *__pyx_n_s_paramdict;
 static PyObject *__pyx_n_s_steady;
 static PyObject *__pyx_kp_s_steady_pyx;
 static PyObject *__pyx_n_s_steady_rho31;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_x;
-static PyObject *__pyx_pf_6steady_steady_rho31(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_x); /* proto */
+static PyObject *__pyx_pf_6steady_steady_rho31(CYTHON_UNUSED PyObject *__pyx_self, __pyx_t_double_complex __pyx_v_Rabio, __pyx_t_double_complex __pyx_v_Rabim, __pyx_t_double_complex __pyx_v_Rabisb, double __pyx_v_delta3, double __pyx_v_delta2, PyObject *__pyx_v_paramdict); /* proto */
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_codeobj__2;
 /* Late includes */
 
-/* "steady.pyx":5
+/* "steady.pyx":15
  * 
  * 
- * def steady_rho31(double x):             # <<<<<<<<<<<<<<
- *     return csteady_rho31(x)
- * 
+ * def steady_rho31(double complex Rabio,             # <<<<<<<<<<<<<<
+ *     		double complex Rabim,
+ * 		double complex Rabisb,
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6steady_1steady_rho31(PyObject *__pyx_self, PyObject *__pyx_arg_x); /*proto*/
-static PyMethodDef __pyx_mdef_6steady_1steady_rho31 = {"steady_rho31", (PyCFunction)__pyx_pw_6steady_1steady_rho31, METH_O, 0};
-static PyObject *__pyx_pw_6steady_1steady_rho31(PyObject *__pyx_self, PyObject *__pyx_arg_x) {
-  double __pyx_v_x;
+static PyObject *__pyx_pw_6steady_1steady_rho31(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6steady_1steady_rho31 = {"steady_rho31", (PyCFunction)__pyx_pw_6steady_1steady_rho31, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6steady_1steady_rho31(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  __pyx_t_double_complex __pyx_v_Rabio;
+  __pyx_t_double_complex __pyx_v_Rabim;
+  __pyx_t_double_complex __pyx_v_Rabisb;
+  double __pyx_v_delta3;
+  double __pyx_v_delta2;
+  PyObject *__pyx_v_paramdict = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("steady_rho31 (wrapper)", 0);
-  assert(__pyx_arg_x); {
-    __pyx_v_x = __pyx_PyFloat_AsDouble(__pyx_arg_x); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 5, __pyx_L3_error)
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_Rabio,&__pyx_n_s_Rabim,&__pyx_n_s_Rabisb,&__pyx_n_s_delta3,&__pyx_n_s_delta2,&__pyx_n_s_paramdict,0};
+    PyObject* values[6] = {0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Rabio)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Rabim)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("steady_rho31", 1, 6, 6, 1); __PYX_ERR(0, 15, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Rabisb)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("steady_rho31", 1, 6, 6, 2); __PYX_ERR(0, 15, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_delta3)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("steady_rho31", 1, 6, 6, 3); __PYX_ERR(0, 15, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_delta2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("steady_rho31", 1, 6, 6, 4); __PYX_ERR(0, 15, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_paramdict)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("steady_rho31", 1, 6, 6, 5); __PYX_ERR(0, 15, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "steady_rho31") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+    }
+    __pyx_v_Rabio = __Pyx_PyComplex_As___pyx_t_double_complex(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
+    __pyx_v_Rabim = __Pyx_PyComplex_As___pyx_t_double_complex(values[1]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
+    __pyx_v_Rabisb = __Pyx_PyComplex_As___pyx_t_double_complex(values[2]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
+    __pyx_v_delta3 = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_delta3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L3_error)
+    __pyx_v_delta2 = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_delta2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L3_error)
+    __pyx_v_paramdict = values[5];
   }
   goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("steady_rho31", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("steady.steady_rho31", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6steady_steady_rho31(__pyx_self, ((double)__pyx_v_x));
+  __pyx_r = __pyx_pf_6steady_steady_rho31(__pyx_self, __pyx_v_Rabio, __pyx_v_Rabim, __pyx_v_Rabisb, __pyx_v_delta3, __pyx_v_delta2, __pyx_v_paramdict);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6steady_steady_rho31(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_x) {
+static PyObject *__pyx_pf_6steady_steady_rho31(CYTHON_UNUSED PyObject *__pyx_self, __pyx_t_double_complex __pyx_v_Rabio, __pyx_t_double_complex __pyx_v_Rabim, __pyx_t_double_complex __pyx_v_Rabisb, double __pyx_v_delta3, double __pyx_v_delta2, PyObject *__pyx_v_paramdict) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  __pyx_t_double_complex __pyx_t_8;
   __Pyx_RefNannySetupContext("steady_rho31", 0);
 
-  /* "steady.pyx":6
+  /* "steady.pyx":23
  * 
- * def steady_rho31(double x):
- *     return csteady_rho31(x)             # <<<<<<<<<<<<<<
  * 
+ *     return csteady_rho31( Rabim,             # <<<<<<<<<<<<<<
+ * 			  Rabio,
+ * 			  Rabisb,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(csteady_rho31(__pyx_v_x)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+
+  /* "steady.pyx":28
+ * 			     delta2,
+ * 			     delta3,
+ *                              paramdict['gamma_13'],             # <<<<<<<<<<<<<<
+ * 			     paramdict['gamma_23'],
+ * 			     paramdict['gamma_2d'],
+ */
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_paramdict, __pyx_n_s_gamma_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "steady.pyx":29
+ * 			     delta3,
+ *                              paramdict['gamma_13'],
+ * 			     paramdict['gamma_23'],             # <<<<<<<<<<<<<<
+ * 			     paramdict['gamma_2d'],
+ * 			     paramdict['gamma_3d'],
+ */
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_paramdict, __pyx_n_s_gamma_23); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "steady.pyx":30
+ *                              paramdict['gamma_13'],
+ * 			     paramdict['gamma_23'],
+ * 			     paramdict['gamma_2d'],             # <<<<<<<<<<<<<<
+ * 			     paramdict['gamma_3d'],
+ *                              paramdict['n_b'],
+ */
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_paramdict, __pyx_n_s_gamma_2d); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "steady.pyx":31
+ * 			     paramdict['gamma_23'],
+ * 			     paramdict['gamma_2d'],
+ * 			     paramdict['gamma_3d'],             # <<<<<<<<<<<<<<
+ *                              paramdict['n_b'],
+ * 			     paramdict['gamma_m'])
+ */
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_paramdict, __pyx_n_s_gamma_3d); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "steady.pyx":32
+ * 			     paramdict['gamma_2d'],
+ * 			     paramdict['gamma_3d'],
+ *                              paramdict['n_b'],             # <<<<<<<<<<<<<<
+ * 			     paramdict['gamma_m'])
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_paramdict, __pyx_n_s_n_b); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "steady.pyx":33
+ * 			     paramdict['gamma_3d'],
+ *                              paramdict['n_b'],
+ * 			     paramdict['gamma_m'])             # <<<<<<<<<<<<<<
+ * 
+ */
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_paramdict, __pyx_n_s_gamma_m); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "steady.pyx":23
+ * 
+ * 
+ *     return csteady_rho31( Rabim,             # <<<<<<<<<<<<<<
+ * 			  Rabio,
+ * 			  Rabisb,
+ */
+  __pyx_t_8 = csteady_rho31(__pyx_v_Rabim, __pyx_v_Rabio, __pyx_v_Rabisb, __pyx_v_delta2, __pyx_v_delta3, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7);
+  __pyx_t_1 = __pyx_PyComplex_FromComplex(__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "steady.pyx":5
+  /* "steady.pyx":15
  * 
  * 
- * def steady_rho31(double x):             # <<<<<<<<<<<<<<
- *     return csteady_rho31(x)
- * 
+ * def steady_rho31(double complex Rabio,             # <<<<<<<<<<<<<<
+ *     		double complex Rabim,
+ * 		double complex Rabisb,
  */
 
   /* function exit code */
@@ -1084,13 +1401,24 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_n_s_Rabim, __pyx_k_Rabim, sizeof(__pyx_k_Rabim), 0, 0, 1, 1},
+  {&__pyx_n_s_Rabio, __pyx_k_Rabio, sizeof(__pyx_k_Rabio), 0, 0, 1, 1},
+  {&__pyx_n_s_Rabisb, __pyx_k_Rabisb, sizeof(__pyx_k_Rabisb), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
+  {&__pyx_n_s_delta2, __pyx_k_delta2, sizeof(__pyx_k_delta2), 0, 0, 1, 1},
+  {&__pyx_n_s_delta3, __pyx_k_delta3, sizeof(__pyx_k_delta3), 0, 0, 1, 1},
+  {&__pyx_n_s_gamma_13, __pyx_k_gamma_13, sizeof(__pyx_k_gamma_13), 0, 0, 1, 1},
+  {&__pyx_n_s_gamma_23, __pyx_k_gamma_23, sizeof(__pyx_k_gamma_23), 0, 0, 1, 1},
+  {&__pyx_n_s_gamma_2d, __pyx_k_gamma_2d, sizeof(__pyx_k_gamma_2d), 0, 0, 1, 1},
+  {&__pyx_n_s_gamma_3d, __pyx_k_gamma_3d, sizeof(__pyx_k_gamma_3d), 0, 0, 1, 1},
+  {&__pyx_n_s_gamma_m, __pyx_k_gamma_m, sizeof(__pyx_k_gamma_m), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_n_b, __pyx_k_n_b, sizeof(__pyx_k_n_b), 0, 0, 1, 1},
+  {&__pyx_n_s_paramdict, __pyx_k_paramdict, sizeof(__pyx_k_paramdict), 0, 0, 1, 1},
   {&__pyx_n_s_steady, __pyx_k_steady, sizeof(__pyx_k_steady), 0, 0, 1, 1},
   {&__pyx_kp_s_steady_pyx, __pyx_k_steady_pyx, sizeof(__pyx_k_steady_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_steady_rho31, __pyx_k_steady_rho31, sizeof(__pyx_k_steady_rho31), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -1101,17 +1429,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "steady.pyx":5
+  /* "steady.pyx":15
  * 
  * 
- * def steady_rho31(double x):             # <<<<<<<<<<<<<<
- *     return csteady_rho31(x)
- * 
+ * def steady_rho31(double complex Rabio,             # <<<<<<<<<<<<<<
+ *     		double complex Rabim,
+ * 		double complex Rabisb,
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_n_s_x, __pyx_n_s_x); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(6, __pyx_n_s_Rabio, __pyx_n_s_Rabim, __pyx_n_s_Rabisb, __pyx_n_s_delta3, __pyx_n_s_delta2, __pyx_n_s_paramdict); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_steady_pyx, __pyx_n_s_steady_rho31, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_steady_pyx, __pyx_n_s_steady_rho31, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1154,7 +1482,7 @@ static int __Pyx_modinit_function_export_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_function_export_code", 0);
   /*--- Function export code ---*/
-  if (__Pyx_ExportFunction("csteady_rho31", (void (*)(void))csteady_rho31, "double (double)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("csteady_rho31", (void (*)(void))csteady_rho31, "__pyx_t_double_complex (__pyx_t_double_complex, __pyx_t_double_complex, __pyx_t_double_complex, double, double, double, double, double, double, double, double)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1367,22 +1695,22 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "steady.pyx":5
+  /* "steady.pyx":15
  * 
  * 
- * def steady_rho31(double x):             # <<<<<<<<<<<<<<
- *     return csteady_rho31(x)
- * 
+ * def steady_rho31(double complex Rabio,             # <<<<<<<<<<<<<<
+ *     		double complex Rabim,
+ * 		double complex Rabisb,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6steady_1steady_rho31, NULL, __pyx_n_s_steady); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6steady_1steady_rho31, NULL, __pyx_n_s_steady); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_steady_rho31, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_steady_rho31, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "steady.pyx":1
  * cdef extern from "csteady.c":             # <<<<<<<<<<<<<<
- *      double csteady_rho31(double x)
- * 
+ *       double complex csteady_rho31(double complex Omega_m,
+ * 			    double complex Omega_o,
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1428,6 +1756,167 @@ end:
     Py_XDECREF(p);
     Py_XDECREF(m);
     return (__Pyx_RefNannyAPIStruct *)r;
+}
+#endif
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_CheckExact(key)) || likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (PyUnicode_GET_SIZE(**name) != PyUnicode_GET_SIZE(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (PyUnicode_GET_SIZE(**argname) != PyUnicode_GET_SIZE(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* DictGetItem */
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
+    PyObject *value;
+    value = PyDict_GetItemWithError(d, key);
+    if (unlikely(!value)) {
+        if (!PyErr_Occurred()) {
+            PyObject* args = PyTuple_Pack(1, key);
+            if (likely(args))
+                PyErr_SetObject(PyExc_KeyError, args);
+            Py_XDECREF(args);
+        }
+        return NULL;
+    }
+    Py_INCREF(value);
+    return value;
 }
 #endif
 
@@ -1672,6 +2161,175 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 bad:
     Py_XDECREF(py_code);
     Py_XDECREF(py_frame);
+}
+
+/* Declarations */
+#if CYTHON_CCOMPLEX
+  #ifdef __cplusplus
+    static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(double x, double y) {
+      return ::std::complex< double >(x, y);
+    }
+  #else
+    static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(double x, double y) {
+      return x + y*(__pyx_t_double_complex)_Complex_I;
+    }
+  #endif
+#else
+    static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(double x, double y) {
+      __pyx_t_double_complex z;
+      z.real = x;
+      z.imag = y;
+      return z;
+    }
+#endif
+
+/* Arithmetic */
+#if CYTHON_CCOMPLEX
+#else
+    static CYTHON_INLINE int __Pyx_c_eq_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+       return (a.real == b.real) && (a.imag == b.imag);
+    }
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_sum_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+        __pyx_t_double_complex z;
+        z.real = a.real + b.real;
+        z.imag = a.imag + b.imag;
+        return z;
+    }
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_diff_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+        __pyx_t_double_complex z;
+        z.real = a.real - b.real;
+        z.imag = a.imag - b.imag;
+        return z;
+    }
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_prod_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+        __pyx_t_double_complex z;
+        z.real = a.real * b.real - a.imag * b.imag;
+        z.imag = a.real * b.imag + a.imag * b.real;
+        return z;
+    }
+    #if 1
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_quot_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+        if (b.imag == 0) {
+            return __pyx_t_double_complex_from_parts(a.real / b.real, a.imag / b.real);
+        } else if (fabs(b.real) >= fabs(b.imag)) {
+            if (b.real == 0 && b.imag == 0) {
+                return __pyx_t_double_complex_from_parts(a.real / b.real, a.imag / b.imag);
+            } else {
+                double r = b.imag / b.real;
+                double s = 1.0 / (b.real + b.imag * r);
+                return __pyx_t_double_complex_from_parts(
+                    (a.real + a.imag * r) * s, (a.imag - a.real * r) * s);
+            }
+        } else {
+            double r = b.real / b.imag;
+            double s = 1.0 / (b.imag + b.real * r);
+            return __pyx_t_double_complex_from_parts(
+                (a.real * r + a.imag) * s, (a.imag * r - a.real) * s);
+        }
+    }
+    #else
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_quot_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+        if (b.imag == 0) {
+            return __pyx_t_double_complex_from_parts(a.real / b.real, a.imag / b.real);
+        } else {
+            double denom = b.real * b.real + b.imag * b.imag;
+            return __pyx_t_double_complex_from_parts(
+                (a.real * b.real + a.imag * b.imag) / denom,
+                (a.imag * b.real - a.real * b.imag) / denom);
+        }
+    }
+    #endif
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_neg_double(__pyx_t_double_complex a) {
+        __pyx_t_double_complex z;
+        z.real = -a.real;
+        z.imag = -a.imag;
+        return z;
+    }
+    static CYTHON_INLINE int __Pyx_c_is_zero_double(__pyx_t_double_complex a) {
+       return (a.real == 0) && (a.imag == 0);
+    }
+    static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_conj_double(__pyx_t_double_complex a) {
+        __pyx_t_double_complex z;
+        z.real =  a.real;
+        z.imag = -a.imag;
+        return z;
+    }
+    #if 1
+        static CYTHON_INLINE double __Pyx_c_abs_double(__pyx_t_double_complex z) {
+          #if !defined(HAVE_HYPOT) || defined(_MSC_VER)
+            return sqrt(z.real*z.real + z.imag*z.imag);
+          #else
+            return hypot(z.real, z.imag);
+          #endif
+        }
+        static CYTHON_INLINE __pyx_t_double_complex __Pyx_c_pow_double(__pyx_t_double_complex a, __pyx_t_double_complex b) {
+            __pyx_t_double_complex z;
+            double r, lnr, theta, z_r, z_theta;
+            if (b.imag == 0 && b.real == (int)b.real) {
+                if (b.real < 0) {
+                    double denom = a.real * a.real + a.imag * a.imag;
+                    a.real = a.real / denom;
+                    a.imag = -a.imag / denom;
+                    b.real = -b.real;
+                }
+                switch ((int)b.real) {
+                    case 0:
+                        z.real = 1;
+                        z.imag = 0;
+                        return z;
+                    case 1:
+                        return a;
+                    case 2:
+                        z = __Pyx_c_prod_double(a, a);
+                        return __Pyx_c_prod_double(a, a);
+                    case 3:
+                        z = __Pyx_c_prod_double(a, a);
+                        return __Pyx_c_prod_double(z, a);
+                    case 4:
+                        z = __Pyx_c_prod_double(a, a);
+                        return __Pyx_c_prod_double(z, z);
+                }
+            }
+            if (a.imag == 0) {
+                if (a.real == 0) {
+                    return a;
+                } else if (b.imag == 0) {
+                    z.real = pow(a.real, b.real);
+                    z.imag = 0;
+                    return z;
+                } else if (a.real > 0) {
+                    r = a.real;
+                    theta = 0;
+                } else {
+                    r = -a.real;
+                    theta = atan2(0, -1);
+                }
+            } else {
+                r = __Pyx_c_abs_double(a);
+                theta = atan2(a.imag, a.real);
+            }
+            lnr = log(r);
+            z_r = exp(lnr * b.real - theta * b.imag);
+            z_theta = theta * b.real + lnr * b.imag;
+            z.real = z_r * cos(z_theta);
+            z.imag = z_r * sin(z_theta);
+            return z;
+        }
+    #endif
+#endif
+
+/* FromPy */
+static __pyx_t_double_complex __Pyx_PyComplex_As___pyx_t_double_complex(PyObject* o) {
+    Py_complex cval;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (PyComplex_CheckExact(o))
+        cval = ((PyComplexObject *)o)->cval;
+    else
+#endif
+        cval = PyComplex_AsCComplex(o);
+    return __pyx_t_double_complex_from_parts(
+               (double)cval.real,
+               (double)cval.imag);
 }
 
 /* CIntToPy */

@@ -1,2 +1,11 @@
-cdef double csteady_rho31(double x)
-
+cdef  double complex csteady_rho31(double complex Omega_m,
+			    double complex Omega_o,
+			    double complex Omega_sb,
+			    double delta_2,
+			    double delta_3,
+                            double gamma_13,
+			    double gamma_23,
+			    double gamma_2d,
+			    double gamma_3d,
+                            double n_b,
+			    double gamma_m)

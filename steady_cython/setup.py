@@ -1,6 +1,18 @@
 #from distutils.core import setup
 import setuptools
+from distutils.extension import Extension
 from Cython.Build import cythonize
+
+
+extensions = [
+    Extension("steady", ["steady.pyx"],
+#        include_dirs = [...],
+        libraries = ['lapacke']
+#        library_dirs = [...]
+    )
+    # Everything but primes.pyx is included here.
+]
+
 
 setuptools.setup(
     name="steady",
@@ -11,4 +23,5 @@ setuptools.setup(
         'scipy',
         'cython'
         ],
-    ext_modules=cythonize("steady.pyx"))
+    ext_modules=cythonize(extensions)
+    )
