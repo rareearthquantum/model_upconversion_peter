@@ -23,8 +23,8 @@ import time
 #==============================================
 #define simulation parameters
 filename='output_calcs/three_lvl_out_realtest3_1'
-deltamacvals=np.linspace(0,2000e6,100)
-deltamvals=np.linspace(0,1000e6,100)
+deltamacvals=np.linspace(0,2000e6,10)
+deltamvals=np.linspace(0,1000e6,10)
 deltaoval=1e7
 binval=50
 p = {}
@@ -80,7 +80,6 @@ p['fillfactor']=0.8 #microwave filling factor
 p['freqmu'] = 5.186e9
 p['freq_pump'] = 195113.36e9 #pump frequency
 p['freqo']=p['freqmu']+p['freq_pump']
-
 p['Lcavity_vac'] = 49.5e-3 # length of the vacuum part of the optical
                            # Fabry Perot (m)
 p['Wcavity'] =  0.6e-3# width of optical resonator beam in sample (m)
@@ -89,7 +88,6 @@ p['Omega']=-492090.88755145477
 
 #=====================================================
 #define some s pre/post operators
-
 def spre(m):
     return TensorProduct(sym.eye(m.shape[0]),m)
 
@@ -294,9 +292,9 @@ for ii, deltamacval in enumerate(deltamacvals):
 
     for jj, deltamval in enumerate(deltamvals):
         rho_out[:,:,ii,jj]=rho_broad_full(0,binval/np.sqrt(p['gammamc']), deltaoval,deltamval,p,n=15)
-        aoutvals[ii,jj], boutvals[ii,jj]=find_output(0,binval/np.sqrt(p['gammamc']),deltaoval,deltamval,p,gauss_n=15)
+        #aoutvals[ii,jj], boutvals[ii,jj]=find_output(0,binval/np.sqrt(p['gammamc']),deltaoval,deltamval,p,gauss_n=15)
         elapsed_time=time.time()-start_time
 
     print('    ' + str(ii) +', Time: ' + time.ctime() +', Elapsed: '+ str(elapsed_time))
 
-    np.savez(filename,aoutvals=aoutvals,boutvals=boutvals,binval=binval,deltamacvals=deltamacvals,deltamvals=deltamvals,p=p, deltaoval=deltaoval)
+    np.savez(filename,aoutvals=aoutvals,boutvals=boutvals,binval=binval,deltamacvals=deltamacvals,deltamvals=deltamvals,p=p, deltaoval=deltaoval,rho_out=rho_out)

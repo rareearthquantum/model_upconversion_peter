@@ -22,10 +22,10 @@ from output_calcs.c_funs_test3 import rho_broad_full
 
 #==============================================
 #define simulation parameters
-filename='three_lvl_nocavity_out7'
-deltamacvals=np.linspace(-5e8,5e8,41)
-deltamvals=np.linspace(-5e8,5e8,41)
-binval=5e-6
+filename='three_lvl_nocavity_out12'
+deltamacvals=np.linspace(-5e8,5e8,11)
+deltamvals=np.linspace(-2e8,2e8,11)
+binval=5000000
 p = {}
 
 p['deltamu'] = 0.
@@ -38,7 +38,7 @@ p['gamma13'] = p['d13']**2/(p['d13']**2+p['d23']**2)*1/11e-3
 p['gamma23'] = p['d23']**2/(p['d13']**2+p['d23']**2)*1/11e-3
 p['gamma2d'] = 1e6
 p['gamma3d'] = 1e6
-p['nbath'] = 0.2
+p['nbath'] = 0#.2
 p['gammamu'] = 1/(p['nbath']+1) * 1e3
 
 p['go'] = 51.9  #optical coupling
@@ -217,7 +217,7 @@ def find_output(ainval,binval,deloval,delmval,p,start_guess_vec):#,start_guess_v
 
 def output_vec_func_no_a(out_vec,binval,delmval,p):
     #the vector looks like [aout.real, aout.imag,bout.real, bout.imag]
-    bout1=out_vec[0]+1j*out_vec[1]+binval
+    bout1=out_vec[0]+1j*out_vec[1]#+binval
     bval=bout1/np.sqrt(p['gammamc'])
     rho=np.array(rho_broad_full(0,bval, 0,delmval,p))
 
@@ -242,7 +242,7 @@ def b_vec_fun_no_a(b_vec,binval,delmval,p):
     rho=np.array(rho_broad_full(0,bval, 0,delmval,p))
     #S12val=rho[1,0]*p['Nm']*p['gm']
     S12val=rho[1,0]*p['Nm']*p['gm']
-    bval1=(-1j*S12val+np.sqrt(p['gammamc']*binval))/((p['gammamc']+p['gammami'])/2-1j*delmval)
+    bval1=(-1j*S12val+np.sqrt(p['gammamc'])*binval)/((p['gammamc']+p['gammami'])/2-1j*delmval)
     return [bval1.real, bval1.imag]-b_vec
 
 def find_b_no_a(binval,delmval,p,start_guess_vec):
@@ -293,7 +293,8 @@ rho_outd=np.zeros((3,3,len(deltamacvals),len(deltamvals)),dtype=np.complex_)
 
 boutvals=np.zeros((len(deltamacvals),len(deltamvals)),dtype=np.complex_)
 bvals=np.zeros((len(deltamacvals),len(deltamvals)),dtype=np.complex_)
-rho_out_bout=np.zeros((3,3,len(deltamacvals),len(deltamvals)),dtype=np.complex_)
+rho_out_bout1=np.zeros((3,3,len(deltamacvals),len(deltamvals)),dtype=np.complex_)
+rho_out_bout2=np.zeros((3,3,len(deltamacvals),len(deltamvals)),dtype=np.complex_)
 rho_out_b=np.zeros((3,3,len(deltamacvals),len(deltamvals)),dtype=np.complex_)
 bvals2=np.zeros((len(deltamacvals),len(deltamvals)),dtype=np.complex_)
 rho13_out=np.zeros((len(deltamacvals),len(deltamvals)),dtype=np.complex_)
@@ -313,9 +314,11 @@ for ii, deltamacval in enumerate(deltamacvals):
             start_guess_vec_b=[bvals[ii,jj-1].real,bvals[ii,jj-1].imag]
             #start_guess_vec_b2=[bvals2[ii,jj-1].real,bvals2[ii,jj-1].imag,avals[ii,jj-1].real,avals[ii,jj-1].imag]
 
-        boutvals[ii,jj]=find_output_no_a(binval,deltamval,p,start_guess_vec_bout)#=start_guess_vec)
-        #bvals[ii,jj]=find_b_no_a(binval,deltamval,p,start_guess_vec_b)
-        rho_out_bout[:,:,ii,jj]=rho_broad_full(0,(boutvals[ii,jj])/np.sqrt(p['gammamc']), 0,deltamval,p)
+        #boutvals[ii,jj]=find_output_no_a(binval,deltamval,p,start_guess_vec_bout)#=start_guess_vec)
+        bvals[ii,jj]=find_b_no_a(binval,deltamval,p,start_guess_vec_b)
+        #rho_out_bout1[:,:,ii,jj]=rho_broad_full(0,(boutvals[ii,jj])*np.sqrt(p['gammamc'])+(binval), 0,deltamval,p)
+        rho_out_b[:,:,ii,jj]=rho_broad_full(0,(bvals[ii,jj]), 0,deltamval,p)
+
         #rho_out_b[:,:,ii,jj]=rho_broad_full(0,bvals[ii,jj]+binval/np.sqrt(p['gammamc']), 0,deltamval,p)
         #bvals2[ii,jj], avals[ii,jj]=find_b_a_rho13(binval,deltamval,p,start_guess_vec_b2)
         #rho_outm[:,:,ii,jj]=rho_broad_full(0,boutvals[ii,jj]*np.sqrt(p['gammamc']), 0,deltamval,p)
@@ -327,4 +330,4 @@ for ii, deltamacval in enumerate(deltamacvals):
     print('    ' + str(ii) +', Time: ' + time.ctime() +', Elapsed: '+ str(elapsed_time))
 
     #np.savez(filename,boutvals=boutvals,binval=binval,deltamacvals=deltamacvals,deltamvals=deltamvals,p=p,rho_out_b=rho_out_b, rho_out_bout=rho_out_bout,bvals=bvals,bvals2=bvals2,rho13_out_b2=rho13_out_b2)
-    np.savez(filename,binval=binval,deltamacvals=deltamacvals,deltamvals=deltamvals,p=p,boutvals=boutvals,avals=avals,rho_out_bout=rho_out_bout,bvals=bvals,rho_out_b=rho_out_b)
+    np.savez(filename,binval=binval,deltamacvals=deltamacvals,deltamvals=deltamvals,p=p,boutvals=boutvals,bvals=bvals,rho_out_b=rho_out_b)

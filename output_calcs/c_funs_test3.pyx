@@ -134,8 +134,8 @@ def gauss_fun_1d(double x,double m, double sd):
     return 1.0/(sqrt(2*3.14159265358979323846)*sd)*exp(-(x-m)**2/(2*sd**2)) #2.5066282746310002 is sqrt(2*pi)
 
 
-DEF n_gauss=30#50
-DEF n_lag = 15
+DEF n_gauss=5
+DEF n_lag = 5#15
 #global xgauss, wgauss
 cdef double xgauss[n_gauss]
 cdef double wgauss[n_gauss]
@@ -242,9 +242,11 @@ def rho_m_broad_full(double delaoval,double complex aval, double complex bval,do
     cdef double pointpairs[2]
     cdef int ii,jj
     S_out=[0,0,0, 0,0,0, 0,0,0]
-    points[:]=sorted([-50*p['sd_delam']+p['mean_delam'],50*p['sd_delam']+p['mean_delam'],p['mean_delam'],p['sd_delam']+p['mean_delam'] ,-p['sd_delam']+p['mean_delam'],delmval,delmval+2*p['gamma2d'],delmval-2*p['gamma2d']])#,p['sd_delam']+p['mean_delam']]
+    points[:]=sorted([-50*p['sd_delam']+p['mean_delam'],50*p['sd_delam']+p['mean_delam'],p['mean_delam'],p['sd_delam']+p['mean_delam'] ,-p['sd_delam']+p['mean_delam'],delmval,delmval+2*p['gamma2d']
+    ,delmval-2*p['gamma2d']]) #,p['sd_delam']+p['mean_delam']]
     #points[:]=sorted([p['mean_delam'],p['sd_delam']+p['mean_delam'] ,-p['sd_delam']+p['mean_delam'],delmval,delmval+2*p['gamma2d'],delmval-2*p['gamma2d']])#,p['sd_delam']+p['mean_delam']]
     for ii in range(7):
+      if not points[ii]==points[ii+1]:
         pointpairs[:]=[points[ii], points[ii+1]]
         S_temp=rho_m_broad_single(delaoval,aval,bval,deloval,delmval, p,pointpairs)
         #print(S_temp)
@@ -305,14 +307,16 @@ def rho_broad_full(double complex aval,double complex bval,double deloval,double
     cdef int ii,jj
     cdef double pointpairs[2]
     S_out_full=[0,0,0, 0,0,0, 0,0,0]
-    points[:]=sorted([-50*p['sd_delao']+p['mean_delao'],50*p['sd_delao']+p['mean_delao'],p['mean_delao'],-3*p['sd_delao']+p['mean_delao'],3*p['sd_delao']+p['mean_delao'],-p['sd_delao']+p['mean_delao'],p['sd_delao']+p['mean_delao'],deloval,deloval+2*p['gamma3d'],deloval-2*p['gamma3d']])
+    points[:]=sorted([-50*p['sd_delao']+p['mean_delao'],50*p['sd_delao']+p['mean_delao'],p['mean_delao'],-3*p['sd_delao']+p['mean_delao'],3*p['sd_delao']+p['mean_delao'],-p['sd_delao']+p['mean_delao']
+    ,p['sd_delao']+p['mean_delao'],deloval,deloval+2*p['gamma3d'],deloval-2*p['gamma3d']])
     #points[:]=sorted([p['mean_delao'],-3*p['sd_delao']+p['mean_delao'],3*p['sd_delao']+p['mean_delao'],-p['sd_delao']+p['mean_delao'],p['sd_delao']+p['mean_delao'],deloval,deloval+2*p['gamma3d'],deloval-2*p['gamma3d']])
     #print(type(points))
     #for ii in prange(9,nogil=True):
     for ii in range(9):
-        pointpairs[:]=[points[ii], points[ii+1]]
-        S_temp=rho_o_broad_single(aval,bval,deloval,delmval, p,pointpairs)
-        S_out_full=[S_out_full[jj]+S_temp[jj] for jj in range(9)]
+        if not points[ii]==points[ii+1]:
+          pointpairs[:]=[points[ii], points[ii+1]]
+          S_temp=rho_o_broad_single(aval,bval,deloval,delmval, p,pointpairs)
+          S_out_full=[S_out_full[jj]+S_temp[jj] for jj in range(9)]
     S_temp=rho_o_broad_single_highbound(aval,bval,deloval,delmval, p,points[9])
     S_out_full=[S_out_full[jj]+S_temp[jj] for jj in range(9)]
     S_temp=rho_o_broad_single_lowbound(aval,bval,deloval,delmval, p,points[0])

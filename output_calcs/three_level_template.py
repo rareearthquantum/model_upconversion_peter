@@ -223,7 +223,7 @@ def rho_m_broad_single(delaoval,aval,bval,deloval,delmval, p,delamlims,n=15):
 def rho_m_broad_full(delaoval,aval,bval,deloval,delmval, p,n=15):
     delamlims=[-50*p['sd_delam']+p['mean_delam'],50*p['sd_delam']+p['mean_delam']]
     #splitpoints=[p['mean_delam'],delmval,-11*p['sd_delam']+p['mean_delam'],11*p['sd_delam']+p['mean_delam']]
-    ds_m=np.nan#find_dressed_states_m(delaoval, deloval,delmval,bval,p)[0].real
+    ds_m=find_dressed_states_m(delaoval, deloval,delmval,bval,p)[0].real
     #ds_test=(steady_rho_single(delaoval,ds_m,aval, bval,deloval,delmval,p))
     splitpoints=[p['mean_delam'],p['sd_delam']+p['mean_delam'] ,-p['sd_delam']+p['mean_delam'],delmval,delmval+2*p['gamma2d'],delmval-2*p['gamma2d']]#,p['sd_delam']+p['mean_delam']]
     if not np.isnan(ds_m) and not ds_m in splitpoints:
