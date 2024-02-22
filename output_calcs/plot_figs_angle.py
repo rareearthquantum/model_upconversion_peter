@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 filename='output_calcs/three_lvl_out1'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 aoutvals=npzfile['aoutvals']
 boutvals=npzfile['boutvals']
 
@@ -29,7 +29,7 @@ plt.ylabel('deltaac_mu')
 fig.colorbar(img1)
 
 filename='output_calcs/three_lvl_out2_n0'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 aoutvals=npzfile['aoutvals']
 boutvals=npzfile['boutvals']
 
@@ -51,7 +51,7 @@ plt.ylabel('deltaac_mu')
 fig.colorbar(img1)
 
 filename='output_calcs/three_lvl_out2_n10'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 aoutvals=npzfile['aoutvals']
 boutvals=npzfile['boutvals']
 

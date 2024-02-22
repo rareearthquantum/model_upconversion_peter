@@ -29,7 +29,7 @@ B_vals=np.linspace(0.225,0.24,61)
 B_vals=np.linspace(0.231,0.235,11)
 #deltamvals=np.linspace(-25e6,25e6,61)*2*np.pi
 deltamvals=np.linspace(-10e6,0,2)
-npzfile=np.load('Paper_figs1/sim_fig7_data_test2'+'.npz')
+npzfile=np.load('Paper_figs1/sim_fig7_data_test2'+'.npz',allow_pickle=True)
 P_pump = 10*np.log10(1.74) #in dBm, 1.74 mW are going into the resonator
 P_mu = -15-30 # in dBm
 T=npzfile['T']

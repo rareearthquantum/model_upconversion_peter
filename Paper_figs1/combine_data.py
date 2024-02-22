@@ -4,7 +4,7 @@ import matplotlib
 #import colormaps as cmaps
 
 filename='Paper_figs1/sim_fig4_data2_'
-npzfile=np.load(filename+'1.npz')
+npzfile=np.load(filename+'1.npz',allow_pickle=True)
 print(npzfile)
 rho_out_b=npzfile['rho_out_b']
 p=npzfile['p'][()]
@@ -13,7 +13,7 @@ freq_pump_vals=npzfile['freq_pump_vals']
 delfreqmu_vals=deltamvals/(2*np.pi)
 
 for ii in [2,3,4]:
-    npzfile=np.load(filename+str(ii)+'.npz')
+    npzfile=np.load(filename+str(ii)+'.npz',allow_pickle=True)
     rho_out_b=rho_out_b+npzfile['rho_out_b']
     #rho_out_b=np.abs(rho_out_b)+np.abs(npzfile['rho_out_b'])
 

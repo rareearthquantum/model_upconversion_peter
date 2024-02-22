@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-npzfile=np.load('output_bin2.npz')
+npzfile=np.load('output_bin2.npz',allow_pickle=True)
 aoutvals=npzfile['aoutvals']
 boutvals=npzfile['boutvals']
 effic_a=npzfile['effic_a']

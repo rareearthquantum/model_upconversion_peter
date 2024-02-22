@@ -5,7 +5,7 @@ import matplotlib
 
 filename='three_lvl_nocavity_out_bintest7'
 bin_num=2
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 rho_out=npzfile['rho_out_b']
 p=npzfile['p'][()]
 bvals=npzfile['bvals']#/np.sqrt(p['gammamc'])

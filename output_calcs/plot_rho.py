@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 filename='output_calcs/three_lvl_testrhoc1'
 filename1='output_calcs/three_lvl_out_realtest3_1'
 
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 rho_out=npzfile['rho_out']
-npzfile1=np.load(filename1+'.npz')
+npzfile1=np.load(filename1+'.npz',allow_pickle=True)
 rho_out1=npzfile1['rho_out']
 deltamvals=npzfile['deltamvals']
 deltamacvals=npzfile['deltamacvals']

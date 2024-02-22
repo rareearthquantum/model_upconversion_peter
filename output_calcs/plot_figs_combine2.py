@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 filename_start='output_calcs/three_lvl_out_realtest4_'
 
-npzfile=np.load(filename_start + '1.npz')
+npzfile=np.load(filename_start + '1.npz',allow_pickle=True)
 binval=npzfile['binval']
 #ainval=npzfile['ainval']
 aoutvals1=npzfile['aoutvals']
@@ -21,26 +21,26 @@ boutvals[(len(deltamacvals1)-1):(2*len(deltamacvals1)-1),(len(deltamvals1)-1):(2
 #print(deltamvals[len(deltamvals1)-1])
 #print(deltamacvals[len(deltamacvals1)-1])
 
-npzfile=np.load(filename_start + '2.npz')
+npzfile=np.load(filename_start + '2.npz',allow_pickle=True)
 aoutvals2=npzfile['aoutvals']
 boutvals2=npzfile['boutvals']
 aoutvals[:(len(deltamacvals1)),(len(deltamvals1)-1):(2*len(deltamvals1)-1)]=aoutvals2
 boutvals[:(len(deltamacvals1)),(len(deltamvals1)-1):(2*len(deltamvals1)-1)]=boutvals2
 
-npzfile=np.load(filename_start + '4.npz')
+npzfile=np.load(filename_start + '4.npz',allow_pickle=True)
 aoutvals1=npzfile['aoutvals']
 boutvals1=npzfile['boutvals']
 aoutvals[:(len(deltamacvals1)),:(len(deltamvals1))]=aoutvals1
 boutvals[:(len(deltamacvals1)),:(len(deltamvals1))]=boutvals1
 binval=npzfile['binval']
 
-# npzfile=np.load(filename_start + '2.npz')
+# npzfile=np.load(filename_start + '2.npz',allow_pickle=True)
 # aoutvals1=(npzfile['aoutvals'][::-1,::-1])
 # boutvals1=(npzfile['boutvals'][::-1,::-1])
 # aoutvals[(len(deltamacvals1)-1):(2*len(deltamacvals1)-1),:(len(deltamvals1))]=aoutvals1
 # boutvals[(len(deltamacvals1)-1):(2*len(deltamacvals1)-1),:(len(deltamvals1))]=boutvals1
 
-npzfile=np.load(filename_start + '3.npz')
+npzfile=np.load(filename_start + '3.npz',allow_pickle=True)
 aoutvals1=npzfile['aoutvals']
 boutvals1=npzfile['boutvals']
 aoutvals[(len(deltamacvals1)-1):(2*len(deltamacvals1)-1),:(len(deltamvals1))]=aoutvals1

@@ -15,7 +15,7 @@ filename='Paper_figs1/sim_fig6_data_dB-15_test3'
 #filename='Paper_figs1/sim_fig7_data15_do1e10'
 #filename='Paper_figs1/sim_fig7_data_temp7_cfe2'
 filename='Paper_figs1/sim_fig6_data_dB3_test_ds2_temp1'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 print(npzfile)
 rho_out=npzfile['rho_out']
 p=npzfile['p'][()]

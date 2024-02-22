@@ -4,7 +4,7 @@ import matplotlib
 #import colormaps as cmaps
 
 filename='excited_params_diptest1'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 print(npzfile)
 rho_out_b=npzfile['rho_out_b']
 p=npzfile['p'][()]

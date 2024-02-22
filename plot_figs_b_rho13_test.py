@@ -4,7 +4,7 @@ import matplotlib
 #import colormaps as cmaps
 
 filename='three_lvl_nocavity_out_b_bout1'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz', allow_pickle=True)
 rho_out_bout=npzfile['rho_out_bout']
 rho_out_b=npzfile['rho_out_b']
 

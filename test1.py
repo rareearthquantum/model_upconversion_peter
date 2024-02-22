@@ -2,7 +2,7 @@ import numpy as np
 #for ii in [23,27,28,29,30,31]:
 
 filename='Paper_figs1/sim_fig7_data_test2'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz', allow_pickle=True)
 p1=npzfile['p'][()]
 #print(ii)
 print(p1['mean_delao'])

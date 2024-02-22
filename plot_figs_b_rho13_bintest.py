@@ -5,7 +5,7 @@ import matplotlib
 
 filename='three_lvl_nocavity_out12'
 filename='ground_params_test1'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 rho_out=npzfile['rho_out_b']
 p=npzfile['p'][()]
 boutvals=npzfile['bvals']#/np.sqrt(p['gammamc'])

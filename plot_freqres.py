@@ -8,7 +8,7 @@ def find_max(matin,delovals,delmvals):
     return delomax,delmmax
 
 def plot_output(filename):
-    npzfile=np.load(filename)
+    npzfile=np.load(filename,allow_pickle=True)
     aoutvals=npzfile['aoutvals']
     boutvals=npzfile['boutvals']
     effic_a=npzfile['effic_a']

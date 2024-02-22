@@ -4,7 +4,7 @@ import matplotlib
 #import colormaps as cmaps
 
 filename='ground_params_test3'
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 print(npzfile)
 rho_out_b=npzfile['rho_out_b']
 p=npzfile['p'][()]

@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 
 
 def combine_data_plot(filestart,wantsave):
-    npz1=np.load(filestart + '1'+'.npz')
-    npz2=np.load(filestart + '2'+'.npz')
-    npz3=np.load(filestart + '3'+'.npz')
-    npz4=np.load(filestart + '4'+'.npz')
+    npz1=np.load(filestart + '1'+'.npz',allow_pickle=True)
+    npz2=np.load(filestart + '2'+'.npz',allow_pickle=True)
+    npz3=np.load(filestart + '3'+'.npz',allow_pickle=True)
+    npz4=np.load(filestart + '4'+'.npz',allow_pickle=True)
     bo1=npz1['boutvals']
     bo2=npz2['boutvals']
     bo3=npz3['boutvals']

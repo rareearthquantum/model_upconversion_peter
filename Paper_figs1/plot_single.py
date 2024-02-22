@@ -9,7 +9,7 @@ filename='Paper_figs1/sim_fig5_data_biggish1'
 filename='Paper_figs1/sim_fig4_data_ds2'
 filename='Paper_figs1/sim_fig5_data_temp8'
 
-npzfile=np.load(filename+'.npz')
+npzfile=np.load(filename+'.npz',allow_pickle=True)
 print(npzfile)
 print('Simuation took ' + str (npzfile['elapsed_time']))
 rho_out=npzfile['rho_out_b']

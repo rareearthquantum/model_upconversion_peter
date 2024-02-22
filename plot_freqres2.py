@@ -20,7 +20,7 @@ def plot_output(filename):
 
     for ii in [0,1,2,3]:
         try:
-            npzfile=np.load(filename+str(ii+1)+'.npz')
+            npzfile=np.load(filename+str(ii+1)+'.npz',allow_pickle=True)
             aoutvals=npzfile['aoutvals']
             boutvals=npzfile['boutvals']
             effic_a=npzfile['effic_a']
