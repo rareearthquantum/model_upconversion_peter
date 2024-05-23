@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Saved data/results
+*npz
+
+# vim swap files
+*.swp
