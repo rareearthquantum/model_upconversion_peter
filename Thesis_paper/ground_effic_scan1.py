@@ -20,9 +20,11 @@ import scipy.optimize
 from matplotlib.colors import Normalize as Norm
 
 import time
-from Linear1.c_linear_ground5 import rho_broad_full
+sys.path.append('Linear1/build/lib.linux-x86_64-3.9')
+from c_linear_ground5 import rho_broad_full
 
-from Thesis_figs.Ground_params2 import p, sd_delao_from_B, deltaao_from_B
+sys.path.append('Thesis_figs')
+from Ground_params2 import p, sd_delao_from_B, deltaao_from_B
 # Q=2*pi*p['freq_pump']/p['gammaoi']
 # print(Q)
 #filename='Linear_figs1/data_temp1'

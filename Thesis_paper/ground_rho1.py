@@ -16,10 +16,12 @@ import scipy.constants as const
 #import qutip
 
 from matplotlib.colors import Normalize as Norm
-from Thesis_figs.Ground_params2 import p, sd_delao_from_B, deltaao_from_B
+sys.path.append('Thesis_figs')
+from Ground_params2 import p, sd_delao_from_B, deltaao_from_B
 
 import time
-from output_calcs.c_funs_test3 import steady_rho_single_c, gauss_fun_1d
+sys.path.append('output_calcs/build/lib.linux-x86_64-3.9')
+from c_funs_test3 import steady_rho_single_c, gauss_fun_1d
 # steady_rho_single_c(double delta_a_o, double delta_a_mu, double complex aval,double complex bval,double delta_o,double delta_mu,p):
 #gauss_fun_1d(double delval,double mean_del, double sd):
 def steady_rho_gauss_single(delao,delam,aval,bval,delo,delm,p):

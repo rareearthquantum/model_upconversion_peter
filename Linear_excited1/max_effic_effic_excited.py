@@ -21,6 +21,7 @@ from matplotlib.colors import Normalize as Norm
 
 import time
 #from output_calcs.c_funs_test3 import rho_broad_full
+sys.path.append('Linear_excited1/build/lib.linux-x86_64-3.9')
 #from c_linear_ground_slow_af import rho_broad_full,rho_broad_full_real_imag
 from c_linear_excited1 import rho_broad_full
 
