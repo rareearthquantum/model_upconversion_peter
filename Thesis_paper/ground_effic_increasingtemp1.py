@@ -20,9 +20,11 @@ import scipy.optimize
 from matplotlib.colors import Normalize as Norm
 
 import time
+sys.path.append('Linear1/build/lib.linux-x86_64-3.9')
 from c_linear_ground5 import rho_broad_full
 
-from Thesis_figs.Ground_params2 import p, sd_delao_from_B, deltaao_from_B
+sys.path.append('Thesis_figs')
+from Ground_params2 import p, sd_delao_from_B, deltaao_from_B
 
 #filename='Linear_figs1/data_temp1'
 filename='Linear_effic3_sim_test_sameN_'
@@ -276,41 +278,41 @@ for ii,temp_val in enumerate(temp_vals):
     print(temp_val)
     print(effic_fun6(x_init,temp_val,p))
     if ii==0:
-        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 100})
+        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 100})
         print(effic_result)
         x_init=effic_result.x
         effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='L-BFGS-B',options = {'maxiter' : 100})
         print(effic_result)
         x_init=effic_result.x
-        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 200})
+        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 200})
         print(effic_result)
         x_init=effic_result.x
-        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 100})
+        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 100})
         print(effic_result)
         x_init=effic_result.x
         effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='L-BFGS-B',options = {'maxiter' : 100})
         print(effic_result)
         x_init=effic_result.x
-        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 200})
+        effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 200})
         print(effic_result)
         x_init=effic_result.x
 
-    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 100})
+    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 100})
     print(effic_result)
     x_init=effic_result.x
     effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='L-BFGS-B',options = {'maxiter' : 100})
     print(effic_result)
     x_init=effic_result.x
-    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 100})
+    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 100})
     x_init=effic_result.x
 
-    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 100})
+    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 100})
     print(effic_result)
     x_init=effic_result.x
     effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='L-BFGS-B',options = {'maxiter' : 100})
     print(effic_result)
     x_init=effic_result.x
-    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxiter' : 100})
+    effic_result=scipy.optimize.minimize(effic_fun6,x_init,args=(temp_val,p),bounds=x_bounds,method='TNC',options = {'maxfun' : 100})
     print(effic_result)
     x_found[:,ii]=effic_result.x
     fun_found[ii]=effic_result.fun
